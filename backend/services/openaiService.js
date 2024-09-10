@@ -14,13 +14,13 @@ const determineMood = async (moodInput) => {
       },
       {
         role: 'user',
-        content: `Generate a concise Spotify search query to find playlists or tracks that fit the mood or activity described as "${moodInput}".`,
+        content: `give me one word or group of words of concise Spotify search query to find playlists or tracks that fit the mood or activity described as "${moodInput} without any other text".`,
       },
     ];
 
    
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini', 
+      model: 'gpt-4o', 
       messages: messages,
       max_tokens: 50,
     });
