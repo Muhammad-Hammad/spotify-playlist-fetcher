@@ -26,7 +26,7 @@ export const logoutWithSpotify = async (): Promise<void> => {
     const refreshToken = localStorage.getItem('refreshToken');
 
     if (refreshToken) {
-      await axios.post(`${API_BASE_URL}/auth/logout`, { refreshToken });
+      await axios.post(`${API_BASE_URL}/logout`, { refreshToken });
 
       localStorage.removeItem('refreshToken');
     }
