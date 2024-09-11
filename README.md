@@ -135,8 +135,7 @@ npm start
 
 ## API Routes
 
-- **POST /login**: Handles Spotify OAuth login.
-- **POST /generate-playlist**: Sends a prompt to OpenAI and generates a playlist based on the selected category.
+- **POST /create-playlist**: Sends a prompt to OpenAI and generates a playlist based on the selected category.
 
 ## Future Improvements
 
