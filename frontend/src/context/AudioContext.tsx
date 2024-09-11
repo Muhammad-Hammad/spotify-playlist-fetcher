@@ -8,7 +8,6 @@ interface AudioContextProps {
   stopAudio: () => void;
   isPlaying: boolean;
   setIsPlaying: (isPlaying: boolean) => void;
-
 }
 
 const AudioContext = createContext<AudioContextProps | undefined>(undefined);
@@ -27,7 +26,6 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({
       setIsPlaying(false);
     }
   };
-
 
   useEffect(() => {
     if (audio) {

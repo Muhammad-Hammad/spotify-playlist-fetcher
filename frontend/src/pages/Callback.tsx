@@ -8,7 +8,6 @@ const CallbackPage: React.FC = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
-    console.log('code', code);
 
     if (code) {
       axios

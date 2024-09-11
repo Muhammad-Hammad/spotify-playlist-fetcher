@@ -1,5 +1,5 @@
 const express = require('express');
-const { searchSongs } = require('../controllers/spotifyController');
+const { searchSongs, createPlaylistController } = require('../controllers/spotifyController');
 const router = express.Router();
 const crypto = require('crypto');
 const axios = require('axios');
@@ -9,7 +9,7 @@ const {
 } = require('../middlewares/spotifyMiddleware');
 
 router.post('/search', spotifyAccessTokenMiddleware, searchSongs);
-
+router.post('/create-playlist',spotifyAccessTokenMiddleware, createPlaylistController);
 
 
 const stateKey = 'spotify_auth_state';

@@ -8,7 +8,7 @@ export const searchPlaylists = async (
 ): Promise<unknown> => {
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/search`,
+      `${API_BASE_URL}/create-playlist`,
       { mode, term },
       {
         headers: { Authorization: `bearer ${accessToken}` },

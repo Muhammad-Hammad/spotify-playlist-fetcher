@@ -6,6 +6,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Tabs from '../../components/Tabs';
 
+const MAX_CHAR_LIMIT = 140;
+
+const CharCount = styled.div<{ exceeded: boolean }>`
+  font-size: 14px;
+  color: ${({ exceeded }) => (exceeded ? 'red' : '#b3b3b3')};
+  margin-top: 8px;
+`;
 const FormContainer = styled.div`
   text-align: center;
   margin: 50px auto;
@@ -23,6 +30,13 @@ const SearchButton = styled(motion.button)`
   margin-top: 10px;
   &:hover {
     background: #1ed760;
+  }
+  &:disabled {
+    background: #b3b3b3; /* Light grey background for disabled state */
+    color: #666666; /* Darker grey text for disabled state */
+    cursor: not-allowed;
+    opacity: 0.6;
+    pointer-events: none;
   }
 `;
 
@@ -66,7 +80,14 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setMode,
   disabled,
 }) => {
-  const { control, handleSubmit, watch, setValue, reset } = useForm({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { isValid, errors },
+  } = useForm({
     defaultValues: {
       searchTerm: '',
       mode: 'Song Match', // Default mode value
@@ -105,7 +126,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
       console.error('Failed to submit:', error);
     }
   };
-
+  const isExceeded = searchTerm.length > MAX_CHAR_LIMIT;
   return (
     <FormContainer>
       <Tabs tabs={tabs} value={mode} onTabChange={handleTabChange} />
@@ -126,15 +147,22 @@ const SearchForm: React.FC<SearchFormProps> = ({
             />
           )}
         />
+
         <SearchButton
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={handleSubmit(onSubmitHandler)}
-          disabled={disabled}
+          disabled={disabled || !isValid || isExceeded}
         >
           Search
         </SearchButton>
       </div>
+      <CharCount exceeded={isExceeded}>
+        {searchTerm.length}/{MAX_CHAR_LIMIT}
+      </CharCount>
+      {errors?.searchTerm ? (
+        <p style={{ color: 'red' }}>{errors?.searchTerm?.message}</p>
+      ) : null}
     </FormContainer>
   );
 };
