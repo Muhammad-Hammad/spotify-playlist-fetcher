@@ -100,6 +100,7 @@ const getPlaylistDetails = async (accessToken, playlistId) => {
   }
 };
 const createPlaylist = async (accessToken, userId, playlistName) => {
+
   try {
     const response = await axios.post(
       `${SPOTIFY_API_BASE_URL}/users/${userId}/playlists`,
@@ -219,6 +220,7 @@ const createPlaylistWithTracks = async (userPrompt, accessToken, mode) => {
 
     const updatedPlaylist = await getPlaylistDetails(accessToken, playlistId);
     updatedPlaylist.owner = { ...updatedPlaylist.owner, images: userProfile.images || [] };
+    updatedPlaylist.description = decodeHtmlEntities(updatedPlaylist.description);
 
     updatedPlaylist.tracks.items = updatedPlaylist.tracks.items.map(item => {
       const trackUri = item.track.uri;
@@ -242,7 +244,9 @@ const createPlaylistWithTracks = async (userPrompt, accessToken, mode) => {
   }
 };
 
-
+const decodeHtmlEntities = (str) => {
+  return str.replace(/&#x27;/g, "'").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+};
 
 module.exports = {
   searchSpotify,
